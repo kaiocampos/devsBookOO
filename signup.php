@@ -9,7 +9,7 @@ require_once('models/Auth.php');
     <meta charset="utf-8" />
     <title>Cadastro</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
-    <link rel="stylesheet" href="<?= $base ?>/assets/css/login.css" />
+    <link rel="stylesheet" href="<?=$base;?>/assets/css/login.css" />
 </head>
 
 <body>
@@ -19,7 +19,7 @@ require_once('models/Auth.php');
         </div>
     </header>
     <section class="container main">
-        <form method="POST" action="<?= $base ?>/signup_action.php">
+        <form method="POST" action="<?=$base;?>/signup_action.php">
             <?php if (!empty($_SESSION['flash'])) : ?>
                 <?= $_SESSION['flash']; ?>
                 <?php $_SESSION['flash'] = ''; ?>
@@ -33,7 +33,7 @@ require_once('models/Auth.php');
 
             <input placeholder="Digite sua Senha" class="input" type="password" name="password" />
 
-            <input class="button" type="submit" value="Fazer o cadastro" />
+            <input class="button" type="submit" value="Fazer cadastro" />
 
             <a href="<?= $base ?>/login.php">Já tem conta? Faça o login</a>
         </form>
@@ -46,7 +46,6 @@ require_once('models/Auth.php');
             {mask:'00/00/0000'}
         );
     </script>
-
 
 </body>
 
