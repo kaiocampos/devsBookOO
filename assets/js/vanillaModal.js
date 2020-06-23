@@ -420,4 +420,4 @@ var VanillaModal = (function () {
   }
 })();
 
-var modal = new VanillaModal();
+// var modal = new VanillaModal(); sem modal para exibir 
