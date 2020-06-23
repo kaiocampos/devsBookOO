@@ -12,29 +12,12 @@ require_once("partials/menu.php");
 ?>
 
 <section class="feed mt-10">
-
-
-<?php print_r($userInfo)?>
-
     <div class="row">
         <div class="column pr-5">
 
-            <div class="box feed-new">
-                <div class="box-body">
-                    <div class="feed-new-editor m-10 row">
-                        <div class="feed-new-avatar">
-                            <img src="media/avatars/avatar.jpg" />
-                        </div>
-                        <div class="feed-new-input-placeholder">O que você está pensando, Bonieky?</div>
-                        <div class="feed-new-input" contenteditable="true"></div>
-                        <div class="feed-new-send">
-                            <img src="assets/images/send.png" />
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php require_once("partials/feed-editor.php");?>
 
-            <div class="box feed-item">
+            <!-- <div class="box feed-item">
                 <div class="box-body">
                     <div class="feed-item-head row mt-20 m-width-20">
                         <div class="feed-item-head-photo">
@@ -90,7 +73,7 @@ require_once("partials/menu.php");
 
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
 
