@@ -1,10 +1,18 @@
 <?php
 require_once('config.php');
 require_once('models/Auth.php');
+require_once('dao/UserRelationDaoMysql.php');
 
 $auth = new Auth($pdo, $base);
 $userInfo = $auth->checkToken();
 $activeMenu = 'home';
+
+// 1. Lista de usuários que userlogado segue
+$userDao = new UserRelationDaoMysql($pdo);
+$userList = $userDao->getRelationsFrom($userInfo->id);
+
+// 2. Posts ordenados pelas datas
+// 3. Transformar os resultados em objetos
 
 require_once("partials/header.php");
 require_once("partials/menu.php");
