@@ -157,37 +157,37 @@ require_once("partials/menu.php");
                 <div class="box-body row m-20">
 
                     <?php if (count($user->photos) > 0) : ?>
-                        <?php foreach ($user->photos as $item):?>
+                        <?php foreach ($user->photos as $item) : ?>
                             <div class="user-photo-item">
-                        <a href="#modal-1" rel="modal:open">
-                            <img src="<?=$base;?>/media/uploads/<?=$item->body;?>" />
-                        </a>
-                        <div id="modal-1" style="display:none">
-                            <img src="<?=$base;?>/media/uploads/<?=$item->body;?>" />
-                        </div>
-                    </div>
+                                <a href="#modal-<?= $key;?>" rel="modal:open">
+                                    <img src="<?= $base;?>/media/uploads/<?= $item->body; ?>" />
+                                </a>
+                                <div id="modal-<?= $key;?>" style="display:none">
+                                    <img src="<?= $base;?>/media/uploads/<?= $item->body; ?>" />
+                                </div>
+                            </div>
 
-                        <?php endforeach;?>
+                        <?php endforeach; ?>
                     <?php endif; ?>
 
                 </div>
             </div>
 
-            <?php if($id == $userInfo->id):?>
-                <?php require('partials/feed-editor.php');?>
-            <?php endif;?>
+            <?php if ($id == $userInfo->id) : ?>
+                <?php require('partials/feed-editor.php'); ?>
+            <?php endif; ?>
 
-            <?php if (count($feed)):?>
-                <?php foreach($feed as $item):?>
-                    <?php require('partials/feed-item.php');?>
-                <?php endforeach;?>
+            <?php if (count($feed)) : ?>
+                <?php foreach ($feed as $item) : ?>
+                    <?php require('partials/feed-item.php'); ?>
+                <?php endforeach; ?>
 
-            <?php else:?>
+            <?php else : ?>
                 Não há postagens deste usuário.
 
-            <?php endif;?>
+            <?php endif; ?>
 
-            
+
 
 
         </div>
