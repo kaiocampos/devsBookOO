@@ -29,11 +29,30 @@ class PostDaoMysql implements PostDAO
         $sql->execute();
     }
 
+    public function getUserFeed($id_user){
+        $array = [];
+        
+        
+        $sql = $this->pdo->prepare("SELECT * FROM posts WHERE id_user = :id_user ORDER BY created_at DESC");
+        $sql->bindValue(':id_user', $id_user);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $data = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+           
+            $array = $this->_postListToObject($data, $id_user);
+
+        }
+        return $array;
+    }
+    
     public function getHomeFeed($id_user){
         $array = [];
         // 1. Lista de usuários que userlogado segue
         $userDao = new UserRelationDaoMysql($this->pdo);
-        $userList = $userDao->getRelationsFrom($id_user);
+        $userList = $userDao->getFollowing($id_user);
+        $userList[] = $id_user;
 
         // 2. Posts ordenados pelas datas
         $sql = $this->pdo->query("SELECT * FROM posts WHERE id_user IN (".implode(',', $userList).") ORDER BY created_at DESC");
@@ -44,6 +63,21 @@ class PostDaoMysql implements PostDAO
             $array = $this->_postListToObject($data, $id_user);
 
         }
+        return $array;
+    }
+
+    public function getPhotosFrom($id_user){
+        $array = [];
+
+        $sql = $this->pdo->prepare("SELECT * FROM posts WHERE id_user = :id_user AND type = 'photo' ORDER BY created_at DESC");
+        $sql->bindValue(":id_user", $id_user);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $data = $sql->fetchAll(PDO::FETCH_ASSOC);
+            $array = $this->_postListToObject($data, $id_user);
+        }
+
         return $array;
     }
 
