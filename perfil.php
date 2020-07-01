@@ -103,7 +103,7 @@ require_once("partials/menu.php");
 
                     <?php if (!empty($user->work)) : ?>
                         <div class="user-info-mini">
-                            <img src="<?= $base; ?>/assets/images/work.jpg" />
+                            <img src="<?= $base; ?>/assets/images/work.png" />
                             <?= $user->work; ?>
                         </div>
                     <?php endif; ?>
