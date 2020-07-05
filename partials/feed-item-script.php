@@ -24,9 +24,13 @@ window.onload = function() {
                 let txt = item.value;
                 item.value = '';
 
+                let data = new FormData();
+                data.append('id', id);
+                data.append('txt', txt);
+
                 let req = await fetch('ajax_comment.php', {
                     method: 'POST',
-                    body: JSON.stringify({id, txt})
+                    body: data
                 });
                 let json = await req.json();
 
