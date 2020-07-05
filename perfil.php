@@ -2,6 +2,7 @@
 require_once('config.php');
 require_once('models/Auth.php');
 require_once('dao/PostDaoMysql.php');
+require_once('dao/UserRelationDaoMysql.php');
 
 $auth = new Auth($pdo, $base);
 $userInfo = $auth->checkToken();
@@ -20,6 +21,7 @@ if ($id != $userInfo->id) {
 
 $postDao = new PostDaoMysql($pdo);
 $userDao = new UserDaoMysql($pdo);
+$userRelationDao = new UserRelationDaoMysql($pdo);
 
 // Pegar informações do Usuário
 $user = $userDao->findById($id, true);
@@ -35,14 +37,7 @@ $user->ageYears = $dateFrom->diff($dateTo)->y;
 $feed = $postDao->getUserFeed($id);
 
 // Verificar se eu SIGO esse usuário
-
-
-
-// $feed = $postDao->getHomeFeed($userInfo->id);
-
-// echo "<pre>";
-// print_r($feed);
-// exit;
+$isFollowing = $userRelationDao->isFollowing($userInfo->id, $id);
 
 require_once("partials/header.php");
 require_once("partials/menu.php");
@@ -64,6 +59,11 @@ require_once("partials/menu.php");
                         <?php endif; ?>
                     </div>
                     <div class="profile-info-data row">
+                        <?php if ($id != $userInfo->id) : ?>
+                            <div class="profile-info-item m-width-20">
+                                <a href="follow_action.php?id=<?=$id;?>" class="button"><?=(!$isFollowing) ? 'Seguir' : 'Deixar de Seguir'?></a>
+                            </div>
+                        <?php endif; ?>
                         <div class="profile-info-item m-width-20">
                             <div class="profile-info-item-n"><?= count($user->followers); ?></div>
                             <div class="profile-info-item-s">Seguidores</div>
@@ -159,11 +159,11 @@ require_once("partials/menu.php");
                     <?php if (count($user->photos) > 0) : ?>
                         <?php foreach ($user->photos as $item) : ?>
                             <div class="user-photo-item">
-                                <a href="#modal-<?= $key;?>" rel="modal:open">
-                                    <img src="<?= $base;?>/media/uploads/<?= $item->body; ?>" />
+                                <a href="#modal-<?= $key; ?>" rel="modal:open">
+                                    <img src="<?= $base; ?>/media/uploads/<?= $item->body; ?>" />
                                 </a>
-                                <div id="modal-<?= $key;?>" style="display:none">
-                                    <img src="<?= $base;?>/media/uploads/<?= $item->body; ?>" />
+                                <div id="modal-<?= $key; ?>" style="display:none">
+                                    <img src="<?= $base; ?>/media/uploads/<?= $item->body; ?>" />
                                 </div>
                             </div>
 
