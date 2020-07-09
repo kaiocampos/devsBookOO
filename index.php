@@ -26,6 +26,7 @@ require_once("partials/menu.php");
             <?php require_once("partials/feed-editor.php");?>
 
             <?php foreach($feed as $item):?>
+                
 
                 <?php require("partials/feed-item.php");?>
 

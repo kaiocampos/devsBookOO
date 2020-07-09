@@ -1,8 +1,8 @@
 <?php
-echo "<pre>";
-var_dump(gd_info());
+// echo "<pre>";
+// var_dump(gd_info());
 
 
-phpinfo();
+//phpinfo();
 
-?>
+// var_dump($_GET);

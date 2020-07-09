@@ -31,6 +31,13 @@ class PostDaoMysql implements PostDAO
         $sql->execute();
     }
 
+    public function delete($id, $id_user){
+        $sql = $this->pdo->prepare("DELETE FROM posts WHERE id = :id AND id_user = :id_user");
+        $sql->bindValue(':id', $id);
+        $sql->bindValue(':id_user', $id_user);
+        $sql->execute();
+    }
+
     public function getUserFeed($id_user){
         $array = [];
         
@@ -41,29 +48,31 @@ class PostDaoMysql implements PostDAO
 
         if ($sql->rowCount() > 0) {
             $data = $sql->fetchAll(PDO::FETCH_ASSOC);
-
-           
+          
             $array = $this->_postListToObject($data, $id_user);
-
         }
         return $array;
     }
     
     public function getHomeFeed($id_user){
+        
         $array = [];
         // 1. Lista de usuários que userlogado segue
         $userDao = new UserRelationDaoMysql($this->pdo);
         $userList = $userDao->getFollowing($id_user);
         $userList[] = $id_user;
-
+        
         // 2. Posts ordenados pelas datas
         $sql = $this->pdo->query("SELECT * FROM posts WHERE id_user IN (".implode(',', $userList).") ORDER BY created_at DESC");
         if ($sql->rowCount() > 0) {
             $data = $sql->fetchAll(PDO::FETCH_ASSOC);
-
+            
             // 3. Transformar os resultados em objetos
             $array = $this->_postListToObject($data, $id_user);
-
+            // echo "<pre>";
+            // print_r($array);
+            // exit;
+            
         }
         return $array;
     }
@@ -93,12 +102,13 @@ class PostDaoMysql implements PostDAO
         foreach ($post_list as $post_item) {
             $newPost = new Post();
             $newPost->id = $post_item['id'];
+            $newPost->id_user = $post_item['id_user'];
             $newPost->type = $post_item['type'];
             $newPost->created_at = $post_item['created_at'];
             $newPost->body = $post_item['body'];
             $newPost->mine = false;
 
-            if ($post_item['id'] == $id_user) {
+            if ($post_item['id_user'] == $id_user) {
                 $newPost->mine = true;
             }
 
